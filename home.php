@@ -20,30 +20,38 @@ $username = $_SESSION['username'];
 <body class="flex flex-col min-h-screen bg-gray-100">
     <!-- Header -->
     <header class="bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg">
-        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-            <div class="flex items-center">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex items-center justify-between gap-4">
                 <h1 class="text-2xl font-bold">LoginSystem</h1>
+                <button id="mobileNavToggle" onclick="toggleMobileNav()" class="inline-flex items-center justify-center rounded-lg bg-white text-blue-600 p-3 shadow-sm hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500 md:hidden" aria-expanded="false" aria-controls="mobileNavMenu">
+                    <span class="sr-only">Toggle navigation</span>
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
             </div>
-            <div class="flex items-center space-x-6">
-                <span class="text-lg">Welcome, <span class="font-semibold"><?php echo htmlspecialchars($username); ?></span>!</span>
-                <button onclick="openUserModal()" class="bg-white text-blue-500 hover:bg-blue-50 font-bold py-2 px-4 rounded-lg transition duration-200">
-                    Users
-                </button>
-                <button onclick="openAddUserModal()" class="bg-white text-green-600 hover:bg-green-50 border border-green-500 font-bold py-2 px-4 rounded-lg transition duration-200">
-                    Add User
-                </button>
-                <button onclick="confirmLogout()" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200">
-                    Logout
-                </button>
+            <div id="mobileNavMenu" class="hidden mt-4 flex-col gap-3 md:flex md:flex-row md:items-center md:justify-between">
+                <span class="text-lg text-white">Welcome, <span class="font-semibold"><?php echo htmlspecialchars($username); ?></span>!</span>
+                <div class="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:justify-end">
+                    <button onclick="openUserModal()" class="bg-white text-blue-500 hover:bg-blue-50 font-bold py-2 px-4 rounded-lg transition duration-200">
+                        Users
+                    </button>
+                    <button onclick="openAddUserModal()" class="bg-white text-green-600 hover:bg-green-50 border border-green-500 font-bold py-2 px-4 rounded-lg transition duration-200">
+                        Add User
+                    </button>
+                    <button onclick="confirmLogout()" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200">
+                        Logout
+                    </button>
+                </div>
             </div>
         </nav>
     </header>
 
     <!-- Main Content -->
     <main class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12">
-        <div class="bg-white rounded-lg shadow-lg p-8">
-            <h2 class="text-4xl font-bold text-gray-800 mb-4">Welcome to Your Dashboard</h2>
-            <p class="text-gray-600 text-lg mb-6">
+        <div class="bg-white rounded-lg shadow-lg p-6 sm:p-8">
+            <h2 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-4">Welcome to Your Dashboard</h2>
+            <p class="text-gray-600 text-base sm:text-lg mb-6 leading-relaxed">
                 Hello, <span class="font-semibold text-blue-600"><?php echo htmlspecialchars($username); ?></span>! 
                 You have successfully logged in to your account.
             </p>
@@ -66,18 +74,20 @@ $username = $_SESSION['username'];
 
     <!-- Footer -->
     <footer class="bg-gray-800 text-white text-center py-6 mt-auto">
-        <p>&copy; 2026 Login System. All rights reserved.</p>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p>&copy; 2026 Login System. All rights reserved.</p>
+        </div>
     </footer>
 
     <!-- User Management Modal -->
-    <div id="userModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-auto m-4">
-            <div class="sticky top-0 bg-gradient-to-r from-blue-500 to-purple-600 text-white p-6 flex justify-between items-center">
+    <div id="userModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-full sm:max-w-4xl max-h-[90vh]">
+            <div class="sticky top-0 bg-gradient-to-r from-blue-500 to-purple-600 text-white p-6 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
                 <h2 class="text-2xl font-bold">Registered Users</h2>
                 <button onclick="closeUserModal()" class="text-2xl hover:text-gray-200">&times;</button>
             </div>
 
-            <div class="p-6">
+            <div class="p-6 max-h-[calc(90vh-120px)]">
                 <div id="usersContainer" class="space-y-4">
                     <p class="text-gray-500 text-center">Loading users...</p>
                 </div>
@@ -92,8 +102,8 @@ $username = $_SESSION['username'];
     </div>
 
     <!-- Edit User Modal -->
-    <div id="editUserModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
+    <div id="editUserModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-full sm:max-w-md mx-4 sm:mx-0">
             <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-6 flex justify-between items-center">
                 <h2 class="text-2xl font-bold">Edit User</h2>
                 <button onclick="closeEditModal()" class="text-2xl hover:text-gray-200">&times;</button>
@@ -122,7 +132,7 @@ $username = $_SESSION['username'];
                     <input type="password" id="editConfirmPassword" name="confirm_password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Confirm new password">
                 </div>
 
-                <div class="flex gap-4 pt-4">
+                <div class="flex flex-col sm:flex-row gap-4 pt-4">
                     <button type="submit" class="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200">
                         Save Changes
                     </button>
@@ -135,8 +145,8 @@ $username = $_SESSION['username'];
     </div>
 
     <!-- Add User Modal -->
-    <div id="addUserModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
+    <div id="addUserModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-full sm:max-w-md mx-4 sm:mx-0">
             <div class="bg-gradient-to-r from-green-500 to-lime-600 text-white p-6 flex justify-between items-center">
                 <h2 class="text-2xl font-bold">Add New User</h2>
                 <button onclick="closeAddUserModal()" class="text-2xl hover:text-gray-200">&times;</button>
@@ -163,7 +173,7 @@ $username = $_SESSION['username'];
                     <input type="password" id="addConfirmPassword" name="confirm_password" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                 </div>
 
-                <div class="flex gap-4 pt-4">
+                <div class="flex flex-col sm:flex-row gap-4 pt-4">
                     <button type="submit" class="flex-1 bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200">
                         Create User
                     </button>
@@ -197,6 +207,19 @@ $username = $_SESSION['username'];
             document.getElementById('addUserModal').classList.add('hidden');
         }
 
+        function toggleMobileNav() {
+            const menu = document.getElementById('mobileNavMenu');
+            const button = document.getElementById('mobileNavToggle');
+            const isHidden = menu.classList.contains('hidden');
+            if (isHidden) {
+                menu.classList.remove('hidden');
+                button.setAttribute('aria-expanded', 'true');
+            } else {
+                menu.classList.add('hidden');
+                button.setAttribute('aria-expanded', 'false');
+            }
+        }
+
         function confirmLogout() {
             if (confirm('Are you sure you want to logout?')) {
                 window.location.href = 'logout.php';
@@ -214,7 +237,7 @@ $username = $_SESSION['username'];
                         container.innerHTML = '';
                         data.users.forEach(user => {
                             const userCard = document.createElement('div');
-                            userCard.className = 'bg-gray-50 p-4 rounded-lg border border-gray-200 flex justify-between items-center';
+                            userCard.className = 'bg-gray-50 p-4 rounded-lg border border-gray-200 flex flex-col md:flex-row justify-between items-start gap-4';
 
                             const info = document.createElement('div');
                             const name = document.createElement('h3');
